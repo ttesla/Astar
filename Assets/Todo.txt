@@ -1,9 +1,7 @@
-[] Put agent on the ground
-[] Put goal button
-[] Right click delete
-[] Clear map button
-[] Fullscreen button
-[] Reset sim button
-[] QA
-[] Release
-[] Finish
+[x] Put agent on the ground
+[x] Put goal button
+[x] Right click delete
+[x] Clear map button
+[x] Reset sim button
+[x] QA
+[x] Release

@@ -37,6 +37,7 @@ public class MapManager : MonoBehaviour
     private bool mObstackleBrush;
     private bool mStartBrush;
     private bool mEndBrush;
+    private List<GameObject> mPathObjects;
 
     #endregion
 
@@ -45,6 +46,7 @@ public class MapManager : MonoBehaviour
     void Awake()
     {
         mMainCam = Camera.main;
+        mPathObjects = new List<GameObject>();
     }
 
     void Start () 
@@ -183,27 +185,45 @@ public class MapManager : MonoBehaviour
 
     void VisualizePath(List<Node> path)
     {
-        foreach(var node in path)
+        ClearPreviousPath();
+
+        foreach (var node in path)
         {
-            GameObject.Instantiate(PathPrefab, MapTrans).transform.position = new Vector3(node.Position.x, +0.25f, -node.Position.y);
+            var obj = GameObject.Instantiate(PathPrefab, MapTrans);
+            obj.transform.position = new Vector3(node.Position.x, +0.25f, -node.Position.y);
+            mPathObjects.Add(obj);
         }
     }
 
     IEnumerator VisualizePathRoutine(List<Node> path)
     {
+        ClearPreviousPath();
+
         foreach (var node in path)
         {
-            GameObject.Instantiate(PathPrefab, MapTrans).transform.position = new Vector3(node.Position.x, +0.25f, -node.Position.y);
+            var obj = GameObject.Instantiate(PathPrefab, MapTrans);
+            obj.transform.position = new Vector3(node.Position.x, +0.25f, -node.Position.y);
+            mPathObjects.Add(obj);
             yield return new WaitForSeconds(VisualizeSpeed);
         }
     }
 
-    void GenerateMap()
+    private void ClearPreviousPath()
+    {
+        foreach(var obj in mPathObjects)
+        {
+            GameObject.Destroy(obj);
+        }
+
+        mPathObjects.Clear();
+    }
+
+    private void GenerateMap()
     {
         GenerateEmptyMap();
     }
 
-    void GenerateEmptyMap()
+    private void GenerateEmptyMap()
     {
         for (int y = 0; y < MapSize; y++)
         {
